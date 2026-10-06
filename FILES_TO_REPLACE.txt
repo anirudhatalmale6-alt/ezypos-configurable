@@ -350,7 +350,12 @@ REPLACE - screens  (application/views/)
       Expense Categories and the new Advance Return. AND: the tick box that
       said Sales Report now says Sales Reprint - it is the same page under
       its new name - and a new Sales Report tick box sits beside it for the
-      totals page.
+      totals page. AND: a tick box is no longer offered for a function the
+      Super Admin has switched off - there is no sense in granting someone
+      a page that is not there. AND: with Single location sales on, the
+      Stores section disappears from this form and the one outlet is ticked
+      for a new user automatically, so nobody is left with no branch and no
+      stock showing anywhere.
 
 62. templates/header.php
       The menu only shows what the user is allowed to open, and Masters now

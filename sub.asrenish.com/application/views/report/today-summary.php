@@ -9,7 +9,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-3"<?php echo single_location() ? ' style="display:none;"' : ''; ?>>
                                     <select class="form-control" id="store_select">
                                         <option value="all">All Branches</option>
                                         <?php if(isset($storesForFilter) && $storesForFilter){ foreach ($storesForFilter as $st) {

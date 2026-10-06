@@ -156,16 +156,29 @@
                                                 <td>                                                    
                                                 </td>
                                             </tr>                                         
-                                           <tr>
+                                           <?php
+                                               // One outlet means there is nothing to choose. The
+                                               // rows are hidden rather than removed, and the one
+                                               // shop is ticked for the new user automatically -
+                                               // a user with no branch at all would see no stock
+                                               // and no figures anywhere.
+                                           ?>
+                                           <tr<?php echo single_location() ? ' style="display:none;"' : ''; ?>>
                                                <th><b><u> Stores </u></b></th>
                                                 <th></th>
                                                 <th></th>
                                             </tr>                                               
-                                            <tr class="col-md-12"> 
-                                                <?php foreach($allStores as $store_row){?>
+                                            <tr class="col-md-12"<?php echo single_location() ? ' style="display:none;"' : ''; ?>> 
+                                                <?php $slFirst = true; foreach($allStores as $store_row){
+                                                      // Only the first one. A shop that has several
+                                                      // stores on file and then switches to single
+                                                      // location should not quietly hand the new user
+                                                      // all of them.
+                                                      $slTick = single_location() && $slFirst;
+                                                      if(single_location()){ $slFirst = false; } ?>
                                                 <td style="font-weight:600;" >
                                                     <div class="row">
-                                                    <input  class="form-control" type="checkbox" name="user_store[]" value="<?php echo $store_row['store_id'];?>">
+                                                    <input  class="form-control" type="checkbox" name="user_store[]" value="<?php echo $store_row['store_id'];?>"<?php echo $slTick ? ' checked' : ''; ?>>
                                                     <?php echo $store_row['store_name'];?>    
                                                  </div>
                                                 </td>
@@ -205,7 +218,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('production') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="production" name="production" type="checkbox" value=1>
                                                     <label for="production">
                                                         Production
@@ -215,7 +228,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('tailoring') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="tailoring" name="tailoring" type="checkbox" value=1>
                                                     <label for="tailoring">
                                                         Tailoring
@@ -243,13 +256,13 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('stocktransfer') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="stocktransfer" name="stocktransfer" type="checkbox" value=1>
                                                     <label for="stocktransfer">Stock Transfers</label>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('loyalty') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="loyalty" name="loyalty" type="checkbox" value=1>
                                                     <label for="loyalty">Customer Loyalty</label>
                                                     </div>
@@ -261,7 +274,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('labeljoy') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="labeljoy" name="labeljoy" type="checkbox" value=1>
                                                     <label for="labeljoy">LabelJoy API</label>
                                                     </div>
@@ -281,7 +294,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('delivery') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="deliverycompany" name="deliverycompany" type="checkbox" value=1>
                                                     <label for="deliverycompany">Delivery Companies</label>
                                                     </div>
@@ -318,7 +331,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('supplier_return') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="supreturn" name="supreturn" type="checkbox" value=1>
                                                     <label for="supreturn">Supplier Return</label>
                                                     </div>
@@ -495,7 +508,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('production') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="re_production" name="re_production" type="checkbox" value=1>
                                                     <label for="re_production">Production & Tailoring Report</label>
                                                     </div>
@@ -694,22 +707,28 @@
                                                 <td>                                                    
                                                 </td>
                                             </tr>  
-                                            <tr>
+                                            <tr<?php echo single_location() ? ' style="display:none;"' : ''; ?>>
                                                <th><b><u> Stores </u></b></th>
                                                 <th></th>
                                                 <th></th>
                                             </tr>                                               
-                                            <tr class="col-md-12"> 
+                                            <tr class="col-md-12"<?php echo single_location() ? ' style="display:none;"' : ''; ?>> 
                                                 <?php
                                                 $user_assigned_stores=array();
                                                 foreach($userStores as $userStores_row){
                                                   array_push($user_assigned_stores,$userStores_row['store_id']) ;
                                                 }
-                                                foreach($allStores as $store_row){?>
+                                                $slFirst = true;
+                                                foreach($allStores as $store_row){
+                                                    // On one outlet, tick the first store if this
+                                                    // user has none yet. Anything already assigned
+                                                    // is left exactly as it is.
+                                                    $slTick = single_location() && $slFirst && empty($user_assigned_stores);
+                                                    if(single_location()){ $slFirst = false; } ?>
                                              
                                                    <td>
                                                     <div class="row" style="font-weight:600;">
-                                                    <input type="checkbox" name="user_store[]"  <?php echo (in_array($store_row['store_id'], $user_assigned_stores) ? 'checked' : ''); ?> value="<?php echo $store_row['store_id'];?>" >
+                                                    <input type="checkbox" name="user_store[]"  <?php echo ($slTick || in_array($store_row['store_id'], $user_assigned_stores)) ? 'checked' : ''; ?> value="<?php echo $store_row['store_id'];?>" >
                                                     <?php echo $store_row['store_name'];?>
                                                    
                                                     </div>
@@ -752,7 +771,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('production') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="E_production" name="E_production" type="checkbox"
                                                     <?php echo (isset($user['priv_production']) && $user['priv_production']==1 ? 'checked' : '');?> value=1>
                                                     <label for="E_production">
@@ -763,7 +782,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('tailoring') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="E_tailoring" name="E_tailoring" type="checkbox"
                                                     <?php echo (isset($user['priv_tailoring']) && $user['priv_tailoring']==1 ? 'checked' : '');?> value=1>
                                                     <label for="E_tailoring">
@@ -795,14 +814,14 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('stocktransfer') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="E_stocktransfer" name="E_stocktransfer" type="checkbox"
                                                     <?php echo (isset($user['priv_stocktransfer']) && $user['priv_stocktransfer']==1 ? 'checked' : '');?> value=1>
                                                     <label for="E_stocktransfer">Stock Transfers</label>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('loyalty') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="E_loyalty" name="E_loyalty" type="checkbox"
                                                     <?php echo (isset($user['priv_loyalty']) && $user['priv_loyalty']==1 ? 'checked' : '');?> value=1>
                                                     <label for="E_loyalty">Customer Loyalty</label>
@@ -818,7 +837,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('labeljoy') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="E_labeljoy" name="E_labeljoy" type="checkbox"
                                                     <?php echo (isset($user['priv_labeljoy']) && $user['priv_labeljoy']==1 ? 'checked' : '');?> value=1>
                                                     <label for="E_labeljoy">LabelJoy API</label>
@@ -841,7 +860,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('delivery') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="E_deliverycompany" name="E_deliverycompany" type="checkbox"
                                                     <?php echo (isset($user['priv_deliverycompany']) && $user['priv_deliverycompany']==1 ? 'checked' : '');?> value=1>
                                                     <label for="E_deliverycompany">Delivery Companies</label>
@@ -880,7 +899,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('supplier_return') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="E_supreturn" name="E_supreturn" type="checkbox"
                                                     <?php echo (isset($user['priv_supreturn']) && $user['priv_supreturn']==1 ? 'checked' : '');?> value=1>
                                                     <label for="E_supreturn">Supplier Return</label>
@@ -1077,7 +1096,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="col-9 checkbox checkbox-custom">
+                                                    <div class="col-9 checkbox checkbox-custom"<?php echo feature_on('production') ? '' : ' style="display:none;"'; ?>>
                                                     <input id="E_re_production" name="E_re_production" type="checkbox"
                                                     <?php echo (isset($user['priv_re_production']) && $user['priv_re_production']==1 ? 'checked' : '');?> value=1>
                                                     <label for="E_re_production">Production & Tailoring Report</label>

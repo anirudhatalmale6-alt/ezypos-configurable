@@ -12,7 +12,7 @@
                             <input class="form-control" id="ps_code" value="<?php echo $nextCode; ?>" readonly style="background:#f5f5f5;">
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row"<?php echo single_location() ? ' style="display:none;"' : ''; ?>>
                         <label class="col-5 col-form-label">Store<span class="text-danger">*</span></label>
                         <div class="col-7">
                             <?php
@@ -22,7 +22,7 @@
                                 $psMyStore = isset($userStoreId) ? intval($userStoreId) : 0;
                             ?>
                             <select class="form-control" id="ps_store">
-                                <?php if($this->session->userdata('userrole')==1 || !$psMyStore): ?>
+                                <?php if(!single_location() && ($this->session->userdata('userrole')==1 || !$psMyStore)): ?>
                                 <option value="0">Select Store</option>
                                 <?php endif; ?>
                                 <?php if($storeLoc): foreach($storeLoc as $s): ?>
@@ -63,7 +63,7 @@
                             <input type="date" class="form-control" id="ps_delivery_date" value="">
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row"<?php echo single_location() ? ' style="display:none;"' : ''; ?>>
                         <label class="col-5 col-form-label">Pickup Store</label>
                         <div class="col-7">
                             <select class="form-control" id="ps_pickup_store">

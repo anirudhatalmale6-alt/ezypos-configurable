@@ -34,7 +34,7 @@
                                 <?php }} ?>
                             </select>
                         </div>
-                        <div class="col-md-3 col-sm-6">
+                        <div class="col-md-3 col-sm-6"<?php echo single_location() ? ' style="display:none;"' : ''; ?>>
                             <label class="small mb-1">Branch</label>
                             <select class="form-control" id="sr_store">
                                 <option value="all">All branches</option>

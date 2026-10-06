@@ -80,7 +80,7 @@
             <!-- ------------------------------------------------ the settlement -->
             <div class="col-lg-2">
                 <div class="card-box">
-                    <div class="form-group">
+                    <div class="form-group"<?php echo single_location() ? ' style="display:none;"' : ''; ?>>
                         <label>Branch<span class="text-danger">*</span></label>
                         <select class="form-control form-control-sm" id="ar_store">
                             <?php foreach ($stores as $s) {

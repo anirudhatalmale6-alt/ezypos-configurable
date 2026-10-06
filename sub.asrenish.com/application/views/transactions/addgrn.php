@@ -8,9 +8,13 @@
                             <div class="card-box clearfix">
                                 <div class="row">
                                     <div class="col-6"><h4 class="header-title m-t-0 m-b-30">Add New GRN</h4></div>
-                                    <div class="col-6">
+                                    <div class="col-6"<?php echo single_location() ? ' style="display:none;"' : ''; ?>>
                                         <select class="form-control" name="grnStoreLoctn" id="grnStoreLoctn">
-                                        <?php if($_SESSION['userrole']==1){?>
+                                        <?php
+                                            // "Pick one" only makes sense when there is a choice.
+                                            // On a single outlet the one destination is selected
+                                            // and the GRN saves without anyone choosing it.
+                                            if($_SESSION['userrole']==1 && !single_location()){ ?>
                                         <option value="0">Store Location</option>
                                         <?php }?>
                                         <?php

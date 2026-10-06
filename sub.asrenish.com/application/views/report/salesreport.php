@@ -45,7 +45,7 @@
                     <?php } ?>
                 </select>
             </div>
-            <div class="button-list col-3 col-xl-2 col-lg-2 col-md-12 col-sm-12 col-xs-12">
+            <div class="button-list col-3 col-xl-2 col-lg-2 col-md-12 col-sm-12 col-xs-12"<?php echo single_location() ? ' style="display:none;"' : ''; ?>>
                 <select name="store_select" id="store_select" class="form-control">
                     <option value="all">-- All Branches --</option>
                     <?php if(isset($storesForFilter) && $storesForFilter){ foreach ($storesForFilter as $st) {
